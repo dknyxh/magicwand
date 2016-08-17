@@ -29,7 +29,7 @@ class Point:
 		else:
 			return False
 
-def run(filename, x, y, threshold):
+def run(filename, x, y, threshold , ouputfile):
 	input_img = misc.imread(filename)
 	input_img = preprocess_img(input_img)
 
@@ -52,7 +52,7 @@ def run(filename, x, y, threshold):
 				bit_map[newy][newx] = 0;
 				queue.append(Point(newx,newy,input_img,threshold))
 	output_img = np.dstack((output_img, bit_map))
-	misc.imsave(filename.split('.')[0] + "remove.png",output_img)
+	misc.imsave(ouputfile,output_img)
 
 
 
@@ -65,7 +65,16 @@ def preprocess_img(img):
 
 if __name__ =='__main__':
 	import sys
-	if(len(sys.argv)!=5):
-		print("Usage:python magicwand.py [filename] [x] [y] [threshold]")
+	import os
+	if(len(sys.argv)!=6):
+		print("Usage:python magicwand.py [filename/directory] [ouputfile/directory] [x] [y] [threshold]")
 	else:
-		run(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
+		if (os.path.isdir(sys.argv[1])):
+			list_of_files = os.listdir(sys.argv[1])
+			for each in list_of_files:
+				if (each.endswith('jpg') or each.endswith('jpeg')):
+					new_name = each.split('.')[0] + '.png'
+					print(new_name)
+					run(sys.argv[1]+'/'+each, int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5]), sys.argv[2]+'/'+new_name)
+		else:	
+			run(sys.argv[1], int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5]), sys.argv[2])

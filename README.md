@@ -1,5 +1,8 @@
-# magicwand
+# Magicwand
 A simple implementation of magicwand.
 
-# An Example
+## An Example
 `python magicstick.py bulbasaur.jpg 0 0 10`
+
+## Requirements
+`Scipy`
